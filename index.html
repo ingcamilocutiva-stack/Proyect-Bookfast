@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOOKFAST</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== PAGE 1: LOGIN ===== -->
+  <div id="page-login" class="page active">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+    </header>
+    <div class="login-body">
+      <div class="book-icon">📚</div>
+      <p class="login-greeting">¡Hola! qué gusto verte de nuevo.</p>
+      <div class="form-group">
+        <input type="email" id="login-email" placeholder="Correo electrónico" class="input-field" />
+      </div>
+      <div class="form-group">
+        <input type="password" id="login-password" placeholder="Contraseña" class="input-field" />
+      </div>
+      <p class="forgot-link"><a href="#">¿Olvidaste tu contraseña?</a></p>
+      <button class="btn-primary" id="btn-login">Iniciar sesión</button>
+      <p class="register-text">¿No tienes una cuenta? <a href="#" class="link-accent">Crear una cuenta nueva</a></p>
+      <p id="login-error" class="error-msg hidden">Correo o contraseña incorrectos.</p>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 2: HOME ===== -->
+  <div id="page-home" class="page">
+    <header class="header header-with-dot">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle">Biblioteca Digital</h2>
+      <span class="notif-dot"></span>
+    </header>
+    <div class="page-body">
+      <div class="welcome-card">
+        <h3 class="welcome-name">Bienvenido, <span id="user-name-home">Usuario</span></h3>
+        <p class="welcome-sub">Tienes 3 libros en préstamo</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">3</span><span class="stat-label">Préstamos</span></div>
+        <div class="stat-card"><span class="stat-num">12</span><span class="stat-label">Leídos</span></div>
+        <div class="stat-card"><span class="stat-num">5</span><span class="stat-label">Favoritos</span></div>
+      </div>
+      <h3 class="section-title">Libros Populares</h3>
+      <div class="popular-grid">
+        <div class="popular-item" onclick="goToBook('El Quijote')">
+          <div class="book-cover cover-1"></div>
+          <p class="book-label">El Quijote</p>
+        </div>
+        <div class="popular-item" onclick="goToBook('Cien Años de Soledad')">
+          <div class="book-cover cover-2"></div>
+          <p class="book-label">Cien Años</p>
+        </div>
+        <div class="popular-item" onclick="goToBook('Rayuela')">
+          <div class="book-cover cover-5"></div>
+          <p class="book-label">Rayuela</p>
+        </div>
+        <div class="popular-item" onclick="goToBook('Dune')">
+          <div class="book-cover cover-6"></div>
+          <p class="book-label">Dune</p>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== PAGE 3: CATALOG ===== -->
+  <div id="page-catalog" class="page">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle">Catálogo</h2>
+    </header>
+    <div class="page-body">
+      <input type="text" id="search-input" placeholder="Buscar libros..." class="search-field" oninput="filterBooks()" />
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterCategory('Todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filterCategory('Ficción', this)">Ficción</button>
+        <button class="filter-btn" onclick="filterCategory('Ciencia', this)">Ciencia</button>
+        <button class="filter-btn" onclick="filterCategory('Historia', this)">Historia</button>
+        <button class="filter-btn" onclick="filterCategory('Arte', this)">Arte</button>
+      </div>
+      <div class="catalog-grid" id="catalog-grid">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn active" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== PAGE 4: BOOK DETAIL ===== -->
+  <div id="page-book-detail" class="page">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle"><span class="back-btn" onclick="goBack()">&#8592; Detalle del Libro</span></h2>
+    </header>
+    <div class="page-body detail-body">
+      <div id="detail-cover" class="detail-book-cover cover-1"></div>
+      <h2 id="detail-title" class="detail-title"></h2>
+      <p id="detail-author" class="detail-author"></p>
+      <div class="star-row">
+        <span class="star filled">★</span>
+        <span class="star filled">★</span>
+        <span class="star filled">★</span>
+        <span class="star filled">★</span>
+        <span class="star">★</span>
+      </div>
+      <div class="info-card">
+        <h4>Información</h4>
+        <p><span class="info-label">Género:</span> <span id="detail-genre"></span></p>
+        <p><span class="info-label">Año:</span> <span id="detail-year"></span></p>
+        <p><span class="info-label">Páginas:</span> <span id="detail-pages"></span></p>
+        <p><span class="info-label">Idioma:</span> <span id="detail-lang"></span></p>
+      </div>
+      <div class="info-card">
+        <h4>Descripción</h4>
+        <p id="detail-desc" class="detail-desc-text"></p>
+      </div>
+      <button class="btn-primary" onclick="requestLoan()">Solicitar Préstamo</button>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn active" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== PAGE 5: LOAN CONFIRMATION ===== -->
+  <div id="page-loan-confirm" class="page">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle"><span class="back-btn" onclick="showPage('page-book-detail')">&#8592; Solicitud de Préstamo</span></h2>
+    </header>
+    <div class="page-body confirm-body">
+      <div class="check-circle">✓</div>
+      <h2 class="confirm-title">Solicitud Enviada</h2>
+      <p class="confirm-sub">Tu solicitud ha sido procesada correctamente</p>
+      <div class="info-card loan-details">
+        <h4>Detalles del Préstamo</h4>
+        <div class="loan-row"><span class="loan-key">Libro:</span><span id="confirm-title" class="loan-val"></span></div>
+        <div class="loan-row"><span class="loan-key">Autor:</span><span id="confirm-author" class="loan-val"></span></div>
+        <div class="loan-row"><span class="loan-key">Fecha préstamo:</span><span id="confirm-date" class="loan-val"></span></div>
+        <div class="loan-row"><span class="loan-key">Devolución:</span><span id="confirm-return" class="loan-val"></span></div>
+        <div class="loan-row"><span class="loan-key">Estado:</span><span class="badge-approved">Aprobado</span></div>
+      </div>
+      <button class="btn-primary" onclick="showPage('page-catalog')">Volver al Catálogo</button>
+      <button class="btn-outline" onclick="showPage('page-loans')">Ver Mis Préstamos</button>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn active" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== PAGE 6: PROFILE ===== -->
+  <div id="page-profile" class="page">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle">Mi Perfil</h2>
+    </header>
+    <div class="page-body profile-body">
+      <div class="avatar-circle"><span id="avatar-initials">JD</span></div>
+      <h3 id="profile-name" class="profile-name">Pepito Perez</h3>
+      <p id="profile-email" class="profile-email">pepito.perez@email.com</p>
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num" id="profile-read">12</span><span class="stat-label">Leídos</span></div>
+        <div class="stat-card"><span class="stat-num" id="profile-loans">3</span><span class="stat-label">Préstamos</span></div>
+        <div class="stat-card"><span class="stat-num" id="profile-favs">5</span><span class="stat-label">Favoritos</span></div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item" onclick="showPage('page-loans')">
+          <span>📋 Mis Préstamos</span><span class="arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <span>📜 Historial</span><span class="arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <span>❤️ Favoritos</span><span class="arrow">›</span>
+        </div>
+        <div class="menu-item">
+          <span>⚙️ Configuración</span><span class="arrow">›</span>
+        </div>
+        <div class="menu-item logout" onclick="logout()">
+          <span>Cerrar Sesión</span>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn active" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== PAGE LOANS ===== -->
+  <div id="page-loans" class="page">
+    <header class="header">
+      <span class="brand">BOOKFAST</span>
+      <h2 class="header-subtitle">Mis Préstamos</h2>
+    </header>
+    <div class="page-body">
+      <div id="loans-list" class="loans-list">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="showPage('page-home', this)">
+        <span class="nav-icon">🏠</span><span>Inicio</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-catalog', this)">
+        <span class="nav-icon">📖</span><span>Catálogo</span>
+      </button>
+      <button class="nav-btn active" onclick="showPage('page-loans', this)">
+        <span class="nav-icon">🔖</span><span>Préstamos</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('page-profile', this)">
+        <span class="nav-icon">👤</span><span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
